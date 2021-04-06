@@ -57,7 +57,12 @@ static void run(char *c, int t)
             break;
         if (!is_special(*c)) {
             c++;    /* Copy word of regular chars into previous u */
-            XXXXX /* 在此補上你的實作 */
+            u--;
+            int count = 0;
+            while (!is_special(*--c))
+                count++;
+            c++;
+            *u = strndup(c, count);
         }
         if (is_redir(*c)) { /* If < or > */
             if (*c == '<')
