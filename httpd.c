@@ -98,7 +98,10 @@ static void dequeue(queue_t *q, int *fd)
      * element after the waiting thread is signaled, but before it can
      * re-acquire head_lock.
      */
-    XXXXX /* 在此提交你的程式碼 */;
+    old_head = q->head;
+    *fd = old_head->fd;
+    q->head = q->head->next;
+    q->size--;
     pthread_mutex_unlock(q->head_lock);
     free(old_head);
 }
