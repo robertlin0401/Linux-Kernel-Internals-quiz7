@@ -127,8 +127,10 @@ int main()
         prompt();
         char buf[512] = {0}; /* input buffer */
         char *c = buf;
-        if (!fgets(c + 1, sizeof(buf) - 1, stdin))
+        if (!fgets(c + 1, sizeof(buf) - 1, stdin)) {
+            printf("\n");
             exit(0);
+        }
         for (; *++c;) /* skip to end of line */
             ;
         run(c, 0);
