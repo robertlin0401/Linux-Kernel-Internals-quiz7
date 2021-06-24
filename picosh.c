@@ -56,13 +56,14 @@ static void run(char *c, int t)
         if (is_delim(*c)) /* if NULL(start of string) or pipe */
             break;
         if (!is_special(*c)) {
-            c++;    /* Copy word of regular chars into previous u */
+            /* Copy word of regular chars into previous u */
             u--;
             int count = 0;
-            while (!is_special(*--c))
+            while (!is_special(*c)) {
                 count++;
-            c++;
-            *u = strndup(c, count);
+                c--;
+            }
+            *u = strndup(c + 1, count);
         }
         if (is_redir(*c)) { /* if < or > */
             if (*c == '<')
