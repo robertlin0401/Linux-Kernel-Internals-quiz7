@@ -53,7 +53,7 @@ static void run(char *c, int t)
     char **u = &v[98]; /* end of words */
     for (;;) {
         c--;
-        if (is_delim(*c)) /* if NULL (start of string) or pipe: break */
+        if (is_delim(*c)) /* if NULL(start of string) or pipe */
             break;
         if (!is_special(*c)) {
             c++;    /* Copy word of regular chars into previous u */
@@ -64,7 +64,7 @@ static void run(char *c, int t)
             c++;
             *u = strndup(c, count);
         }
-        if (is_redir(*c)) { /* If < or > */
+        if (is_redir(*c)) { /* if < or > */
             if (*c == '<')
                 redir_stdin = *u;
             else
