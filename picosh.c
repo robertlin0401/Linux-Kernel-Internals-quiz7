@@ -124,19 +124,32 @@ static void run(char *c, int t)
     fatal(execvp(*u, u), 1);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    int t = open("./output.log", O_WRONLY | O_TRUNC | O_CREAT);
+    int out_class = 0;
+    if (argc > 1 && !(argc % 2)) {
+        for (int i = 0; i < argc / 2; ++i) {
+            if (!strncmp(argv[1 + 2 * i], "<", 1) ||
+                !strncmp(argv[1 + 2 * i], ">", 1)) {
+                continue;
+            }
+            out_class = atoi(argv[1 + 2 * i]);
+            break;
+        }
+    }
     while (1) {
         prompt();
         char buf[512] = {0}; /* input buffer */
         char *c = buf;
         if (!fgets(c + 1, sizeof(buf) - 1, stdin)) {
             write(2, "\n", 1);
+            close(t);
             exit(0);
         }
         for (; *++c;) /* skip to end of line */
             ;
-        run(c, 0);
+        run(c, out_class ? t : 0);
     }
     return 0;
 }
