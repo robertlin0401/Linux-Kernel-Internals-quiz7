@@ -77,7 +77,7 @@ static void run(char *c, int t)
     if ((u - v) == 98) /* empty input */
         return;
 
-    if (!strcmp(*u, "cd")) { /* built-in command: cd */
+    if (!strcmp(*u, "cd")) { /* built-in command */
         fatal(chdir(u[1]), 0);
         return; /* actually, should run() again */
     }
@@ -88,7 +88,7 @@ static void run(char *c, int t)
     }
 
     pid_t pid = fork();
-    if (pid) { /* Parent or error */
+    if (pid) { /* parent or error */
         fatal(pid, 1);
         if (outfd) {
             run(c, outfd);     /* parse the rest of the cmdline */
@@ -106,7 +106,8 @@ static void run(char *c, int t)
     }
 
     if (redir_stdin) {
-        close(0); /* replace stdin with redir_stdin */
+        /* replace stdin with redir_stdin */
+        close(0);
         fatal(open(redir_stdin, 0), 1);
     }
 
@@ -116,8 +117,9 @@ static void run(char *c, int t)
     }
 
     if (redir_stdout) {
+        /* replace stdout with redir */
         close(1);
-        fatal(creat(redir_stdout, 438), 1); /* replace stdout with redir */
+        fatal(creat(redir_stdout, 438), 1);
     }
     fatal(execvp(*u, u), 1);
 }
