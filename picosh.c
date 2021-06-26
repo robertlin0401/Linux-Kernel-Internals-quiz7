@@ -139,11 +139,13 @@ int main(int argc, char *argv[])
         }
     }
     while (1) {
-        prompt();
+        if (isatty(0))
+            prompt();
         char buf[512] = {0}; /* input buffer */
         char *c = buf;
         if (!fgets(c + 1, sizeof(buf) - 1, stdin)) {
-            write(2, "\n", 1);
+            if (isatty(0))
+                write(2, "\n", 1);
             close(t);
             exit(0);
         }
