@@ -58,3 +58,5 @@ httpd
 httpd.c
 picosh
 
+!test.cmd
+
